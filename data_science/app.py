@@ -1,15 +1,13 @@
-from data_processing import load_data
+from data_processing import load_data_from_json
 from model import train_model, evaluate_model
 from visualization import plot_feature_importance
 
-# 1. Veriyi yükleme ve hazırlama
-X_train, X_test, y_train, y_test = load_data()
+# JSON dosyasını yükleyelim
+X_train, X_test, y_train, y_test = load_data_from_json('data/audio_features.json')
 
-# 2. Modeli eğitme
+# Modeli eğit ve sonuçları değerlendir
 clf = train_model(X_train, y_train)
-
-# 3. Test seti üzerinde değerlendirme
 evaluate_model(clf, X_test, y_test)
 
-# 4. Özelliklerin önemini görselleştirme
+# Özellik önemini görselleştir
 plot_feature_importance(clf)
