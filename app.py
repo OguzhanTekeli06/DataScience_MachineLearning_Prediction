@@ -30,17 +30,23 @@ def predict_mood(valence, energy, danceability, loudness, tempo, liveness):
     for v, e, d, l, t, li in zip(valence, energy, danceability, loudness, tempo, liveness):
         if v > 0.7 and e > 0.7 and d > 0.7:
             moods.append('Neşeli ve Hareketli')
-        elif v > 0.7 and e < 0.5 and l < -8:
+        elif v > 0.6 and e < 0.6 and l < -7:
             moods.append('Sakin ve Mutlu')
         elif v < 0.5 and e > 0.7 and t > 120:
             moods.append('Hüzünlü ve Enerjik')
-        elif v < 0.3 and e < 0.5 and l < -10:
+        elif v < 0.4 and e < 0.6 and l < -8:
             moods.append('Melankolik ve Sakin')
-        elif li > 0.4 and t > 130 and l > -5:
+        elif li > 0.35 and t > 125 and l > -6:
             moods.append('Stresli')
+        elif d > 0.7 and t > 140:
+            moods.append('Dans Edilebilir')
+        elif liveness > 0.3 and energy < 0.6:
+            moods.append('Canlı ve Rahat')
         else:
             moods.append('Karmaşık Ruh Hali')
     return moods
+
+
 
 # Tahmin edilen ruh halleri
 moods = predict_mood(valence, energy, danceability, loudness, tempo, liveness)
