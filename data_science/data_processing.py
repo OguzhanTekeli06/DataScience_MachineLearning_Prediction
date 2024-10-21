@@ -1,8 +1,6 @@
-import numpy as np
-import pandas as pd
 import json
+import pandas as pd
 from sklearn.model_selection import train_test_split
-
 
 # JSON dosyasını yükleyen ve işleyen fonksiyon
 def load_data_from_json(file_path='data/audio_features.json'):
@@ -13,13 +11,11 @@ def load_data_from_json(file_path='data/audio_features.json'):
     # JSON verisini normalize edelim (veriyi tabloya çevirelim)
     df = pd.json_normalize(json_data['audio_features'])
 
-    # Gerekli özellikleri seçelim
-    X = df[['valence', 'energy', 'danceability', 'loudness', 'tempo', 'liveness']].values
+    # Gerekli özellikleri seçelim (diğer sütunları çıkarıyoruz)
+    X = df[['valence', 'energy', 'danceability', 'loudness', 'tempo', 'liveness', 'acousticness', 'speechiness', 'instrumentalness']].values
 
-    # Örnek olması açısından bir 'mood' kolonu ekleyelim, normalde veri bu kolonu içermeli
-    # Burada 'mood' sütunu olmadığı için rastgele atama yapıyorum, sen bu kısmı uygun şekilde düzenleyebilirsin
-    moods = ['Neşeli ve Hareketli', 'Hareketli', 'Düşük Enerji', 'Sakin ve Mutlu', 'Melankolik']
-    y = np.random.choice(moods, size=len(df))
+    # 'mood' etiketlerini ekleyelim veya yükleyelim
+    y = df['mood']  # Eğer JSON'da mood sütunu varsa, doğrudan alınabilir
 
     # Veriyi eğitim ve test seti olarak ayıralım
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
